@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using VidukaFiveNews.Repositories;
 
 namespace VidukaFiveNews
 {
@@ -25,8 +28,36 @@ namespace VidukaFiveNews
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+
+
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("asdv234234^&%&^%&^hjsdfb2%%%")),
+
+                    ValidateIssuer = false,
+                    //ValidIssuer = "The name of the issuer",
+
+                    ValidateAudience = false,
+                    //ValidAudience = "The name of the audience",
+
+                    //ValidateLifetime = true, //validate the expiration and not before values in the token
+
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
+
+            services.AddScoped<ArticlesRepository>();
+            services.AddScoped<AuthorsRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +67,8 @@ namespace VidukaFiveNews
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
