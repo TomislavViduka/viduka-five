@@ -15,6 +15,7 @@ namespace VidukaFiveNews.Models
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
+
         public LoginRequest()
         {
         }
