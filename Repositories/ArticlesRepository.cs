@@ -57,6 +57,7 @@ namespace VidukaFiveNews.Repositories
 
 
     public void PostArticle(Article article)
+
     {
         using (var db = new VidukaFiveNewsContext())
         {
@@ -67,17 +68,19 @@ namespace VidukaFiveNews.Repositories
     }
 
 
-    public void UpdateArticle(int id, Article article)
+    public void UpdateArticle(int id, ArticlePostRequest article)
     {
         using (var db = new VidukaFiveNewsContext())
-        {
+
+            {
+            var unixTimeSeconds = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
             var articleBefore = db.Articles.Single(x => x.Id == id);
             articleBefore.Title = article.Title;
             articleBefore.Content = article.Content;
             articleBefore.Image = article.Image;
-            articleBefore.Date = article.Date;
+            articleBefore.Date = Convert.ToInt32(unixTimeSeconds);
 
-            db.SaveChanges();
+                db.SaveChanges();
         }
     }
 

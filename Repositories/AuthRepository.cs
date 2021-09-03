@@ -46,19 +46,19 @@ namespace VidukaFiveNews.Repositories
         }
 
 
-        public void Registration(Author author)
+        public void Registration(RegistrationRequest author)
         {
             author.Password = BC.HashPassword(author.Password);
 
             using (var db = new VidukaFiveNewsContext())
             {
-                var newUser = new Author()
+                var newAuthor = new Author()
                 {
                     Name = author.Name,
                     Email = author.Email,
                     Password = author.Password,
                 };
-                db.Authors.Add(newUser);
+                db.Authors.Add(newAuthor);
 
                 db.SaveChanges();
             }

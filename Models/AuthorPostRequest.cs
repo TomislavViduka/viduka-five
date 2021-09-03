@@ -5,9 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace VidukaFiveNews.Models
 {
-    public class RegistrationRequest
+    public class AuthorPostRequest
     {
-        [StringLength(20)]
+   
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -15,17 +15,11 @@ namespace VidukaFiveNews.Models
         [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [Required]
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
 
-        //[Required]
-        //[JsonPropertyName("token")]
-        //public string Token { get; set; }
-
-
-        public RegistrationRequest()
+        public AuthorPostRequest()
         {
         }
     }

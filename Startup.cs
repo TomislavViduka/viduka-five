@@ -31,6 +31,8 @@ namespace VidukaFiveNews
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddRazorPages();
+
 
 
 
@@ -57,8 +59,13 @@ namespace VidukaFiveNews
                 };
             });
 
+
+
+
+
             services.AddScoped<ArticlesRepository>();
             services.AddScoped<AuthorsRepository>();
+            services.AddScoped<AuthRepository>();
 
 
             services.AddSwaggerGen(c =>

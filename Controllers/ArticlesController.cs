@@ -11,7 +11,6 @@ using VidukaFiveNews.Repositories;
 namespace VidukaFiveNews.Controllers
 {
    
-    [Authorize(Roles = "Admin,SuperAdmin")]
     [Route("api/[controller]")]
     public class ArticlesController : Controller
     {
@@ -25,7 +24,7 @@ namespace VidukaFiveNews.Controllers
         }
 
 
-        // GET: api/users
+     
         [HttpGet]
         public ActionResult Get()
         {
@@ -34,7 +33,7 @@ namespace VidukaFiveNews.Controllers
         }
 
 
-        // GET api/users/5
+      
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
@@ -43,8 +42,9 @@ namespace VidukaFiveNews.Controllers
         }
 
 
-        // POST api/users
+      
         [HttpPost]
+        [Authorize]
         public ActionResult Post([FromBody] Article article)
         {
             _articlesRepository.PostArticle(article);
@@ -52,18 +52,19 @@ namespace VidukaFiveNews.Controllers
         }
 
 
-        // PUT api/users/5
+       
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Article article)
+        [Authorize]
+        public ActionResult Put(int id, [FromBody] ArticlePostRequest article)
         {
             _articlesRepository.UpdateArticle(id, article);
             return Ok();
         }
 
 
-        // DELETE api/users/5
+     
         [HttpDelete("{id}")]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize]
         public ActionResult Delete(int id)
         {
             _articlesRepository.DeleteArticle(id);

@@ -40,11 +40,16 @@ namespace VidukaFiveNews.Controllers
 
         // POST api/values REGISTER
         [HttpPost("register")]
-        public ActionResult Register([FromBody] Author author)
+        public ActionResult Register([FromBody] RegistrationRequest author)
         {
 
             _authRepository.Registration(author);
             return Ok();
         }
+
+
+
+
+
     }
 }

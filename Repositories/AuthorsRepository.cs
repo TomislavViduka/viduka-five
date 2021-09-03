@@ -31,17 +31,7 @@ namespace VidukaFiveNews.Repositories
         return authors;
     }
 
-    public IEnumerable<Author> GetAuthorsPaged(int page, int pageSize)
-    {
-        IEnumerable<Author> authors;
 
-        using (var db = new VidukaFiveNewsContext())
-        {
-            authors = db.Authors.GetPaged(page, pageSize).Results;
-        }
-
-        return authors;
-    }
 
     public Author GetAuthorById(int id)
     {
@@ -55,19 +45,28 @@ namespace VidukaFiveNews.Repositories
         return author;
     }
 
-
-    public void PostAuthor(Author author)
-    {
-        using (var db = new VidukaFiveNewsContext())
+        /// <summary>
+        /// Creates a new instance of Author in DB
+        /// </summary>
+        /// <param name="author"></param>
+        public void PostAuthor(AuthorPostRequest authorPost)
         {
-            db.Authors.Add(author);
-            db.SaveChanges();
+            Author author = new Author();
+            using (var db = new VidukaFiveNewsContext())
+        {
+                author.Name = authorPost.Name;
+                author.Email = authorPost.Email;
+                author.Password = BCrypt.Net.BCrypt.HashPassword(authorPost.Password);
+                db.Authors.Add(author);
+                db.SaveChanges();
 
         }
     }
 
 
-    public void UpdateAuthor(int id, Author author)
+
+
+        public void UpdateAuthor(int id, Author author)
     {
         using (var db = new VidukaFiveNewsContext())
         {

@@ -32,5 +32,11 @@ namespace VidukaFiveNews.Repositories
             options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
+
+
     }
 }
